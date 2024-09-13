@@ -1,0 +1,28 @@
+<h2>Países</h2>
+<hr>
+
+<ul class="list-group">
+  <!-- cuando colocamos [routerLinkActiveOptions]="{ exact: true }" le decimos que redireccione al home, asi en el archivo de app-routing.module.ts no le definamos alguna ruta al home y lo dejemos asi ''  -->
+  <li
+    routerLink=""
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="list-group-item"
+  >
+    Home page
+  </li>
+  <li
+    routerLink="about"
+    routerLinkActive="active"
+    class="list-group-item"
+  >
+    About page
+  </li>
+  <li
+    routerLink="contact"
+    routerLinkActive="active"
+    class="list-group-item"
+  >
+    Contact
+  </li>
+</ul>
