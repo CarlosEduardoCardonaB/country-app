@@ -6,6 +6,7 @@ import { HomePageComponent } from './pages/homePage/homePage.component';
 import { AboutPageComponent } from './pages/aboutPage/aboutPage.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ContactComponent } from './pages/contact/contact/contact-page.component';
+import { SearchBoxComponent } from './components/searchBox/searchBox.component';
 
 
 
@@ -15,7 +16,8 @@ import { ContactComponent } from './pages/contact/contact/contact-page.component
     HomePageComponent,
     AboutPageComponent,
     SidebarComponent,
-    ContactComponent
+    ContactComponent,
+    SearchBoxComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { ContactComponent } from './pages/contact/contact/contact-page.component
     HomePageComponent,
     AboutPageComponent,
     SidebarComponent,
-    ContactComponent
+    ContactComponent,
+    SearchBoxComponent
   ]
 })
 export class SharedModule { }
