@@ -17,6 +17,7 @@ export class SearchBoxComponent {
   @Input()
   public palaceholder: string = '';
 
+
   @Output()
   public onValueSearch = new EventEmitter<string>();
 
