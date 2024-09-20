@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { Country } from '../interfaces/country';
 
 @Injectable({providedIn: 'root'})
@@ -10,9 +10,14 @@ export class CountriesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  searchCountryByAlphaCode(code: string): Observable<Country[]>{
+  searchCountryByAlphaCode(code: string): Observable<Country | null> {
     const url = `${ this.apiUrl }/alpha/${ code }`;
-    return this.getPetition(url);
+    //return this.getPetition(url);
+    return this.httpClient.get<Country[]>( url )
+    .pipe(
+      map( countries => countries.length > 0 ? countries[0]: null),
+      catchError( error => of(null))
+    );
   }
 
   searchCapital( term: string ): Observable<Country[]> {
@@ -34,7 +39,8 @@ export class CountriesService {
   }
 
   getPetition (url: string): Observable<Country[]>{
-    return this.httpClient.get<Country[]>( url ).pipe(
+    return this.httpClient.get<Country[]>( url )
+    .pipe(
       catchError( error => of([]))
     );
     //el pipe() es un operador de rxjs (librerias para manejar reactividad)
