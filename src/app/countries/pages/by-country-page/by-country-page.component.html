@@ -6,6 +6,7 @@
       palaceholder="Buscar por país"
       (onDebounce)="searchByCountry($event)"
       (onValueSearch)="searchByCountry($event)"
+      [initialValue]="initialValue"
 
     ></shared-search-box>
   </div>
