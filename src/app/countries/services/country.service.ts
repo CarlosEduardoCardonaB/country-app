@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, delay, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Country } from '../interfaces/country';
+import { CacheStore } from '../interfaces/cache-store.interface';
 
 @Injectable({providedIn: 'root'})
 export class CountriesService {
 
   private apiUrl: string = 'https://restcountries.com/v3.1';
+  public cacheStore: CacheStore = {
+    byCapital: {termI: '', countriesI: []},
+    byCountries: {termI: '', countriesI:[]},
+    byRegion: {regionI: '', countriesI: []}
+  }
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+
+    console.log('Este log se imprime desde el country.service.ts y es para demostrar que este no se destruye con el ciclo de vida de cada componente, por lo tanto lo puedo usar como persistencia de algunos datos')
+  }
 
   private getPetition (url: string): Observable<Country[]>{
     return this.httpClient.get<Country[]>( url )
@@ -39,11 +48,16 @@ export class CountriesService {
 
   searchCapital( term: string ): Observable<Country[]> {
     const url = `${ this.apiUrl }/capital/${ term }`;
-    return this.getPetition(url);
+    return this.getPetition(url)
+    .pipe(
+      tap( countries => this.cacheStore.byCapital = {termI: term, countriesI: countries} )
+      //Este "tap" se usa para ejecutar algo sin interferir en la petición que se está haciendo.
+      //En este caso estamos guardando la información de la respuesta para ser persistida por si el usuario vuelve a esta página de buscar por capital y no tener que hacer petición http de nuevo
+    );
   }
 
   searchCountry( term: string ): Observable<Country[]> {
-    const url = `${ this.apiUrl }/name/${ term }?fullText=true`;
+    const url = `${ this.apiUrl }/name/${ term }`;
     return this.getPetition(url);
   }
 
